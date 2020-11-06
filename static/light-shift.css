@@ -1,0 +1,188 @@
+html {
+	background-color: transparent;
+}
+
+
+body {
+	background-color: rgb(240, 240, 240);
+	color: #000;
+	transition: background-color 2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.navbar { 
+	background: white;
+}
+
+.gem-item:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.menu-items a,a:visited {
+	color: gray;
+	transition: all .3s ease-in-out;
+}
+
+.menu-items .router-link-exact-active{
+	color: black;
+}
+
+button {
+	border: 1px solid #969696;
+}	
+
+button a {
+	color: #333;
+}	
+
+button .mask {
+	background-color: #000;
+}	
+
+button:hover {
+	background-color: rgba(255, 255, 255, 0.95);
+	border-color: #000;
+	box-shadow: 0 0 5px rgba(255, 245, 245, 0.2);
+}	
+
+button:hover a {
+	color: #000;
+}	
+
+button:hover .mask {
+	background-color: #000;
+}	
+
+button:active {
+	background-color: #000;
+}	
+
+button:active a {
+	color: #202020;
+}	
+
+
+button:disabled,
+button[disabled],
+button:disabled:hover,
+button[disabled]:hover{
+  background-color: rgba(156, 174, 192, 0.17);
+  border: 1px solid #5f5f5f;
+  color: #7e7e7e;
+  box-shadow: none;
+}	
+
+
+button:disabled a,
+button[disabled] a {
+  color: #7e7e7e;
+}	
+
+/* button:disabled,
+button[disabled]  .mask {
+  opacity: 0;
+} */	
+
+
+
+
+
+
+
+
+
+
+
+.md-textfield {
+	color: #000;
+}
+
+.md-textfield .md-textfield-input:focus + label {
+  color: #9E9E9E;
+}
+
+.md-textfield .md-textfield-input + label + .indicator  {
+  border-bottom-color: rgb(199, 199, 199);
+}
+
+.md-textfield .md-textfield-input:not(:placeholder-shown) + label {
+  color: #9E9E9E;
+}
+
+.md-textfield .md-textfield-input   {
+	color: #000;
+}
+
+
+
+
+.md-select {
+	color: #000;
+}
+
+.md-select input:focus + label {
+  color: #9E9E9E;
+}
+
+.md-select input + label + .indicator  {
+  border-bottom-color: rgb(199, 199, 199);
+}
+
+.md-select input:not(:placeholder-shown) + label {
+  color: #9E9E9E;
+}
+
+.md-select input   {
+	color: #000;
+}
+
+.md-select input:focus ~ ul {
+	background: #fff;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.option {
+	border-bottom: 1px solid rgb(197, 197, 197);
+}
+
+.option:hover {
+  background-color: #ddd;
+}
+
+
+.card {
+  background-color: white;
+	padding: 10px;
+	border: 1px solid white;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+
+
+
+
+
+
+
+
+
+.modal-footer {
+	display: flex;
+  flex-direction: row-reverse;
+}
+
+
+
+
+.tabs a {
+  color:  #a0a0a0;
+}
+
+.tabs a.active {
+  border-bottom: 1px solid black;
+  color:  black;
+}
+
+.tab-content {
+  border-top: 1px solid #a0a0a0;
+}
