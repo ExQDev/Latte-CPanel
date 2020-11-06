@@ -66,6 +66,6 @@ srv.on('connection', (socket) => {
 // app.listen(port)
 // console.log('server started ' + port)
 
-http.listen(process.env.PORT || 80, function(){
-  console.log(`listening on *:${process.env.PORT}`);
+http.listen(process.env.PORT || 5000, function(){
+  console.log(`listening on *:${process.env.PORT || 5000}`);
 });
