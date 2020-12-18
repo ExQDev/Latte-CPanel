@@ -4,7 +4,7 @@
     <label for="ind">{{label}}</label>
     <div class="indicator"></div>
     <ul>
-      <li v-for="(option, index) in options" v-bind:key="`ko-${index||option.id}`" class="option" v-on:click="() => onselect(option||'')"><a>{{option.name||option.title}}</a></li>
+      <li v-for="(option, index) in options" v-bind:key="`ko-${index||option.id}`" class="option" v-on:click="() => onselect(option||'')"><a>{{option.name||option.title||option||''}}</a></li>
     </ul>
   </div>
 </template>

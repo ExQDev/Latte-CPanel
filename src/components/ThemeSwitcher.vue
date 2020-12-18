@@ -19,9 +19,6 @@
 
 <script>
 export default {
-  props: ['onClick', 'theme'],
-  mounted: function () {
-    console.log(this.theme)
-  }
+  props: ['onClick', 'theme']
 }
 </script>

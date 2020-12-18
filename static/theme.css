@@ -418,6 +418,8 @@ input:invalid {
   position: relative;
   box-shadow: none !important;
   width: 100%;
+  text-align: initial;
+  font-family: 'Open Sans';
   --labelTop: 16px;
   --labelBottom: 34px;
   --textHeight: 24px;
@@ -450,7 +452,8 @@ input:invalid {
   padding: 4px 0;
   z-index: 1;
   width: 100%;
-  font-family: OpenSansLight;
+  font-family: 'Open Sans';
+  margin-left: 0px;
 }
 
 

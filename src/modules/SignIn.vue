@@ -9,6 +9,7 @@
       </div>
     </div>
     <div id="signin-app" class="signin-content">
+      <!-- <editor></editor> -->
       <v-button style="margin-top: 20%;" :onclick="signin">{{labelSubmit}}</v-button>
     </div>
   </div>
@@ -18,16 +19,19 @@
 import ThemeManager from '../components/ThemeSwitcher'
 import Textfield from '../components/Textfield'
 import VButton from '../components/Button'
+import Editor from './TriggerEditor'
 
 export default {
   data () {
     return {
-      labelSubmit: 'Sign In with Discord'
+      labelSubmit: 'Sign In with Discord',
+      root: this
     }
   },
   methods: {
     signin () {
-      this.$socket.emit('action', { method: 'getoauthurl' }, (url) => {
+      console.log(this.$socket)
+      this.$socket.client.emit('action', { method: 'getoauthurl' }, (url) => {
         console.log(url)
         window.open(url)
       })
@@ -36,7 +40,8 @@ export default {
   components: {
     ThemeManager,
     Textfield,
-    VButton
+    VButton,
+    Editor
   }
 }
 </script>

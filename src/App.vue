@@ -9,10 +9,10 @@
           <div class="menu">
             <div class="menu-items">
               <!-- <textfield class="search-field" id="searchbox" :icon="SearchIcon" type="text" :oninput="onSearchInput"/> -->
-              <router-link v-if="signedIn" to="/">Store</router-link>
+              <router-link v-if="signedIn" to="/">Dashboard</router-link>
               <router-link v-if="signedIn" to="/profile">Profile</router-link>
               <router-link to="/about">About</router-link>
-              <a v-if="signedIn" @click="signedIn = !signedIn">Sign out</a>
+              <a v-if="signedIn" @click="signOut">Sign out</a>
               <router-link v-if="!signedIn" to="/signin">Sign In</router-link>
               <!-- <a v-else @click="signedIn = !signedIn">Sign in/up</a> -->
             </div>
@@ -44,11 +44,15 @@ export default {
     TransitionPage,
     Textfield
   },
-  data: function () {
+  data () {
     return {
-      signedIn: false,
       prevHeight: 0,
       SearchIcon
+    }
+  },
+  computed: {
+    signedIn () {
+      return (this.$store.state.user && this.$store.state.user.id) || false
     }
   },
   methods: {
@@ -58,6 +62,9 @@ export default {
     onSearchInput: function (e) {
       const searchValue = e.target.value
       this.searchQuery = searchValue
+    },
+    signOut () {
+      this.$store.dispatch('deauth').then(() => this.$router.push('/signin'))
     }
   }
 }
