@@ -9,6 +9,21 @@ body {
 	transition: background-color 2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+a {
+	color: black;
+}
+
+.drawer-content {
+	border: 1px solid rgb(206, 206, 206);
+	background-color: rgb(255, 255, 255);
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  height: calc(99.9vh - 55px);
+  margin-top: 55px;
+}
+
+#nav-icon1 span {
+	background: black;
+}
 .navbar { 
 	background: white;
 }

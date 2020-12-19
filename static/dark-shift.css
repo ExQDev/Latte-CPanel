@@ -13,6 +13,22 @@ body {
   color: white;
 }
 
+.div-transparent:before
+{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, rgb(235, 235, 235), transparent);
+}
+
+a {
+	color: white;
+}
+
 .navbar { 
 	background: #000000;
 }

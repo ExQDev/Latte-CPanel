@@ -20,6 +20,18 @@ body {
 	transition: background-color 2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+.div-transparent:before
+{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, rgb(48,49,51), transparent);
+}
+
 .menu-items {
   margin-right: 20px;
   margin-top: -5px;
@@ -50,6 +62,17 @@ body {
                                 supported by Chrome and Opera */
 }
 
+
+.drawer-content {
+  background: rgba(0, 0, 0, .8);
+  border: 1px solid white;
+  height: calc(99.9vh - 55px);
+  margin-top: 55px;
+}
+
+.content-wrap {
+  padding-left: 70px;
+}
 
 .container {
   display: flex;

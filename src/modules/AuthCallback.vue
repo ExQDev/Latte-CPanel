@@ -1,10 +1,18 @@
 <template>
-  <h1>Authenticating...</h1>
+  <div>
+    <h1>Authenticating...</h1>
+    <spinner></spinner>
+  </div>
 </template>
 
 <script>
+import Spinner from '@/components/Spinner'
+
 export default {
   name: 'Authenticating...',
+  components: {
+    Spinner
+  },
   mounted () {
     this.$socket.client.on('user', (payload) => {
       this.$store.dispatch('auth', payload).then(() => {
