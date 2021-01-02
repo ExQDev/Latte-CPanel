@@ -1,16 +1,43 @@
 <template>
   <div>
-    <h1>Dashboard</h1>
+    <h1>{{page}}</h1>
+    <div>
+      <component :is="component(page)"/>
+    </div>
   </div>
 </template>
 
 <script>
+import Triggers from './Triggers'
+
 export default {
   data () {
     return {
+      components: {
+        Triggers: Triggers
+      }
+    }
+  },
+  computed: {
+    page () {
+      return this.$store.state.page
     }
   },
   methods: {
+    component (page) {
+      return this.components[page] || null
+    }
+  },
+  mounted () {
+    this.$socket.client.on('guilds', (guilds) => {
+      console.log(guilds)
+      this.$store.commit('setGuilds', guilds)
+      // console.log(this.$store.state.currentGuild)
+      if (!this.$store.state.currentGuild || !this.$store.state.currentGuild.id) { this.$store.dispatch('setCurrentGuild', guilds[0]) }
+    })
+    this.$socket.client.emit('action', {
+      method: 'getGuilds'
+    })
   }
 }
 </script>

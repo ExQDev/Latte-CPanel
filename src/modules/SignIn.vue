@@ -17,7 +17,7 @@
 
 <script>
 import ThemeManager from '../components/ThemeSwitcher'
-import Textfield from '../components/Textfield'
+// import Textfield from '../components/Textfield'
 import VButton from '../components/Button'
 import Editor from './TriggerEditor'
 
@@ -39,7 +39,7 @@ export default {
   },
   components: {
     ThemeManager,
-    Textfield,
+    // Textfield,
     VButton,
     Editor
   }

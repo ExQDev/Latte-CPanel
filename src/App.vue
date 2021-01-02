@@ -3,7 +3,7 @@
     <modal @setModal="setModal">
       <fixed-header>
         <div class="navbar">
-          <div class="logo" @click="modal.show('Test', 'This is a test modal')">
+          <div class="logo" @click="$modal.show('Test', 'This is a test modal')">
             <h1><img src="./assets/favicon.png" width="54" height="54"/> Latte CPanel</h1>
           </div>
           <div class="menu">
@@ -41,8 +41,6 @@
               <span></span>
               <span></span>
             </div>
-            <!-- <h2>This is a drawer</h2> -->
-            <!-- <divider></divider> -->
             <div class="userline">
               <avatar v-bind:class="{ 'avashort': !isDrawerOpen }" :username="username" :src="ava" :size="60" class="ava" />
               <span class="divi" v-bind:class="{ 'divi-short': !isDrawerOpen }"></span>
@@ -50,6 +48,31 @@
             </div>
             <divider></divider>
 
+            <transition-group
+              name="guilds-list"
+              tag="div"
+              v-bind:css="false"
+              v-on:before-enter="beforeEnter"
+              v-on:enter="enter"
+              v-on:leave="leave"
+              class="d-guild-dropdown"
+            >
+              <div class="d-guild-preview" v-bind:key="currentGuildName" v-bind:class="{ 'd-guild-preview-short': !isDrawerOpen }" @click="toggleGuildList()">
+                <img :src="currentGuildIcon" alt=""/>
+                <span>{{currentGuildName}}</span>
+              </div>
+              <div
+                v-for="guild in guilds"
+                v-bind:key="guild.id"
+                class="d-guild-preview"
+                v-bind:class="{ 'd-guild-preview-short': !isDrawerOpen }"
+                @click="selectGuild(guild)"
+              >
+                <img :src="`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`" alt=""/>
+                <span>{{guild.name}}</span>
+              </div>
+            </transition-group>
+            <divider/>
             <transition-group
               name="staggered-fade"
               tag="div"
@@ -82,10 +105,11 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import FixedHeader from 'vue-fixed-header'
 import Velocity from 'velocity-animate'
 import Avatar from '@lossendae/vue-avatar'
-import Textfield from '@/components/Textfield'
+// import Textfield from '@/components/Textfield'
 import RenderString from '@/components/RenderString'
 import Divider from '@/components/Divider'
 import ThemeMgr from './modules/ThemeMgr'
@@ -100,7 +124,7 @@ export default {
     ThemeMgr,
     Modal,
     TransitionPage,
-    Textfield,
+    // Textfield,
     Divider,
     RenderString,
     Avatar
@@ -109,6 +133,7 @@ export default {
     return {
       prevHeight: 0,
       isDrawerOpen: false,
+      guildListOpen: false,
       disableSelection: false,
       SearchIcon,
       activeComponent: null,
@@ -120,7 +145,7 @@ export default {
           },
           {
             name: 'Roles',
-            icon: 'las la-user-circle'
+            icon: 'las la-user-cog'
           },
           {
             name: 'Triggers',
@@ -129,6 +154,20 @@ export default {
           {
             name: 'Music Player',
             icon: 'las la-music'
+          }
+        ],
+        Profile: [
+          {
+            name: 'General',
+            icon: 'las la-user-circle'
+          },
+          {
+            name: 'Prefeences',
+            icon: 'las la-cog'
+          },
+          {
+            name: 'Templates',
+            icon: 'las la-copy'
           }
         ]
       }
@@ -140,7 +179,7 @@ export default {
     },
     menuItems () {
       const items = this.drawerItems[this.$route.name || 'Dashboard']
-      console.log(items, this.$route.name)
+      // console.log(items, this.$route.name)
       return items
     },
     itemClass () {
@@ -148,6 +187,9 @@ export default {
     },
     user () {
       return this.$store.state.user
+    },
+    currentGuild () {
+      return this.$store.state.currentGuild
     },
     username () {
       return `${this.user.username}`
@@ -157,11 +199,21 @@ export default {
     },
     ava () {
       return `https://cdn.discordapp.com/avatars/${this.user.id}/${this.user.avatar}.png`
+    },
+    currentGuildIcon () {
+      return `https://cdn.discordapp.com/icons/${this.currentGuild.id}/${this.currentGuild.icon}.png`
+    },
+    currentGuildName () {
+      return this.currentGuild.name || 'noname-guild'
+    },
+    guilds () {
+      return this.guildListOpen ? this.$store.state.guilds : []
     }
   },
   methods: {
     setModal: function (modal) {
-      this.modal = modal
+      Vue.prototype.$modal = modal
+      // this.modal = modal
     },
     onSearchInput: function (e) {
       const searchValue = e.target.value
@@ -173,6 +225,15 @@ export default {
     toggleDrawer () {
       this.isDrawerOpen = !this.isDrawerOpen
       this.$refs.drawer.toggle()
+    },
+    toggleGuildList () {
+      // console.log('toggleList', this.guildListOpen, this.guilds)
+      this.guildListOpen = !this.guildListOpen
+    },
+    selectGuild (guild) {
+      // console.log(guild)
+      this.$store.dispatch('setCurrentGuild', guild)
+      this.guildListOpen = false
     },
     handleSlideStart () {
       this.disableSelection = true
@@ -189,6 +250,7 @@ export default {
     },
     selectActive (item) {
       this.activeComponent = item
+      this.$store.commit('setPage', item.name)
     },
     beforeEnter: function (el) {
       el.style.opacity = 0
@@ -216,8 +278,23 @@ export default {
     }
   },
   mounted () {
+    this.$socket.client.on('getuser', (redirectPayload) => {
+      console.log('redirect', redirectPayload)
+      if (this.user && this.user.id != null) {
+        this.$socket.client.emit('action', {
+          method: 'signin',
+          setuser: this.user
+        }, () => {
+          if (!redirectPayload) return
+          this.$socket.client.emit('action', {
+            ...redirectPayload
+          })
+        })
+      } else {
+        console.log('not authorized')
+      }
+    })
     if (this.user && this.user.id != null) {
-      console.log(this.user)
       this.$socket.client.emit('action', {
         method: 'signin',
         setuser: this.user
@@ -333,6 +410,61 @@ export default {
   margin-left: 400px;
   width: 70px;
   transition: all ease-in-out .2s;
+}
+
+.d-guild-dropdown {
+  /* height: 75px; */
+  transition: all ease-in-out .2s;
+  overflow: hidden;
+}
+
+.d-guild-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 36px;
+  cursor: pointer;
+  transition: all ease-in-out .2s;
+}
+
+.d-guild-preview span {
+  transition: all ease-in-out .2s;
+}
+
+.d-guild-preview:hover {
+  background-color: rgba(117, 117, 117, 0.2);
+}
+
+.d-guild-preview img {
+  width: 54px;
+  height: 54px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.d-guild-preview-short {
+  margin-left: 400px;
+  transition: all ease-in-out .2s;
+}
+
+.d-guild-preview-short img {
+  /* width: 70px; */
+  margin-right: 15px;
+  /* margin-left: 15px; */
+}
+
+.d-guild-preview-short span {
+  opacity: 0;
+  width: 0px;
+  padding: 0px;
+  margin: 0px;
+  height: 54px;
+}
+
+.d-guild-preview-list {
+  transform: scaleY(0);
 }
 
 .d-menubutton {
@@ -458,7 +590,7 @@ export default {
   max-width: 30px;
   transition: .2s all;
 }
-.search-field input:hover, input:focus{
+.search-field input:hover, .search-field input:focus{
   width: 180px;
   max-width: 180px;
   margin-right: 0;

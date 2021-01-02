@@ -175,14 +175,24 @@ button[disabled]:hover a {
 
 .option:hover {
 	background-color: #fff;
-	color: #202020;
+	width: 100%;
+}
+
+.option:hover a {
+	color: #000000;
 }
 /* --   SELECT   -- */
 
+/* -- TOOLTIP -- */
+.tooltip {
+	background: black;
+	border: 1px solid white;
+}
+/* -- TOOLTIP -- */
 
 /* --    CARD    -- */
 .card {
-  background-color: transparent;
+	background-color: rgba(0,0,0,0.9);
   padding: 10px;
   box-shadow: none;
 	transition: 0.3s;

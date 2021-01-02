@@ -116,7 +116,7 @@ button .mask {
 	background-color: rgba(255, 255, 255, 0.5);
 	height: 100px;
 	position: absolute;
-	transform: translate3d(-120%, -70px, 0) rotate3d(0, 0, 1, -60deg);
+	transform: translate3d(-150%, -70px, 0) rotate3d(0, 0, 1, -60deg);
 	transition: transform 1.1s cubic-bezier(0.19, 1, 0.22, 1);
   width: 200px;
 }
@@ -140,7 +140,7 @@ button:hover a {
 button:hover .mask {
   opacity: 1;
 	background-color: #fff;
-	transform: translate3d(120%, -70px, 0) rotate3d(0, 0, 1, -60deg);
+	transform: translate3d(150%, -70px, 0) rotate3d(0, 0, 1, -60deg);
 }
 
 button:hover .shift {
@@ -174,7 +174,7 @@ button[disabled]:hover a {
 button:disabled:hover .mask,
 button[disabled]:hover .mask {
   opacity: 0;
-  transform: translate3d(-120%, -70px, 0) rotate3d(0, 0, 1, -60deg);
+  transform: translate3d(-150%, -70px, 0) rotate3d(0, 0, 1, -60deg);
 }
 
 
@@ -373,11 +373,32 @@ input:invalid {
   bottom: 5px;
   left: 0;
 }
-.md-textfield-icon+input:not(:placeholder-shown),input:focus {
+.md-textfield-icon+input:not(:placeholder-shown),.md-textfield-icon+input:focus {
   margin-left: 35px;
 }
 
 
+.tooltip {
+  transition: .2s ease-in-out all;
+  background: black;
+  position: absolute;
+  margin-bottom: 54px;
+  height: 54px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid white;
+  padding: 10px;
+  z-index: 9;
+}
+.tooltipable>.tooltip {
+  opacity: 0;
+  display: none;
+}
+.tooltipable:hover>.tooltip {
+  opacity: 1;
+  display: block;
+}
 
 
 .card {
