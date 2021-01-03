@@ -48,6 +48,10 @@
             </div>
             <divider></divider>
 
+            <div class="d-guild-preview" v-bind:key="currentGuildName" v-bind:class="{ 'd-guild-preview-short': !isDrawerOpen }" @click="toggleGuildList()">
+              <img :src="currentGuildIcon" alt=""/>
+              <span>{{currentGuildName}}</span>
+            </div>
             <transition-group
               name="guilds-list"
               tag="div"
@@ -57,10 +61,6 @@
               v-on:leave="leave"
               class="d-guild-dropdown"
             >
-              <div class="d-guild-preview" v-bind:key="currentGuildName" v-bind:class="{ 'd-guild-preview-short': !isDrawerOpen }" @click="toggleGuildList()">
-                <img :src="currentGuildIcon" alt=""/>
-                <span>{{currentGuildName}}</span>
-              </div>
               <div
                 v-for="guild in guilds"
                 v-bind:key="guild.id"
@@ -415,7 +415,9 @@ export default {
 .d-guild-dropdown {
   /* height: 75px; */
   transition: all ease-in-out .2s;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 30%;
 }
 
 .d-guild-preview {

@@ -9,12 +9,16 @@
 
 <script>
 import Triggers from './Triggers'
+import Dashboard from './DashboardHome'
+import MusicPlayer from './MusicPlayer'
 
 export default {
   data () {
     return {
       components: {
-        Triggers: Triggers
+        Triggers: Triggers,
+        Dashboard,
+        MusicPlayer
       }
     }
   },

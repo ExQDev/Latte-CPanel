@@ -4,8 +4,8 @@
 
     </div> -->
     <div class="toolbox">
-      <v-button :onclick="toggleEditor" ><i class="las la-plus"></i>New trigger</v-button>
-      <v-button :onclick="deleteAll" ><i class="las la-trash-alt"></i>Purge all</v-button>
+      <v-button :onclick="toggleEditor" :noshift="true"><i class="las la-plus"></i>New trigger</v-button>
+      <v-button :onclick="deleteAll" :noshift="true"><i class="las la-trash-alt"></i>Purge all</v-button>
     </div>
     <SortedTable :values="callbacks" class="triggers-table">
       <thead>
@@ -54,8 +54,8 @@
             <td>{{ value.action.role }}</td>
             <td>
               <div class="manage-acts">
-                <v-button :onclick="editTrigger(value)"><i class="las la-pen"></i></v-button>
-                <v-button :onclick="deleteTrigger(value)"><i class="las la-trash-alt"></i></v-button>
+                <v-button :onclick="editTrigger(value)" :noshift="true"><i class="las la-pen"></i></v-button>
+                <v-button :onclick="deleteTrigger(value)" :noshift="true"><i class="las la-trash-alt"></i></v-button>
               </div>
             </td>
           </tr>
@@ -147,6 +147,11 @@ export default {
           { complete: done }
         )
       }, delay)
+    }
+  },
+  watch: {
+    editorOpen (newVal) {
+      if (!newVal) { this.currentTrigger = null }
     }
   },
   mounted () {

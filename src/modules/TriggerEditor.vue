@@ -10,7 +10,7 @@
           :value="callback.trigger">
         </dropdown>
         <tooltip v-if="messageIdAvailable" note="You can copy that from official Discord client">
-          <textfield :oninput="messageIdInput" label="Message ID" type="text"></textfield>
+          <textfield :oninput="messageIdInput" label="Message ID" type="text" :value="callback.messageId"></textfield>
         </tooltip>
         <tooltip
           v-if="containsEmoji"
@@ -106,7 +106,8 @@ export default {
         'Warn',
         'Rename',
         'React',
-        'Message'
+        'Message',
+        'Edit'
       ],
       roles: [],
       guilds: [],
