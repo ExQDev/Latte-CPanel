@@ -409,17 +409,38 @@ input:invalid {
 }
 
 .card-header {
-
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .card-content {
   display: flex;
   flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
 .card-footer {
-
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
+
+.wide {
+  width: 70%;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.wide h2 {
+  text-align: left;
+  padding-left: 5px;
+  margin: 0;
+}
+
 
 
 

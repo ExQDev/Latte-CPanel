@@ -111,7 +111,6 @@ import Velocity from 'velocity-animate'
 import Avatar from '@lossendae/vue-avatar'
 // import Textfield from '@/components/Textfield'
 import RenderString from '@/components/RenderString'
-import Divider from '@/components/Divider'
 import ThemeMgr from './modules/ThemeMgr'
 import Modal from './modules//Modal'
 import TransitionPage from './modules/TransitionPage'
@@ -124,8 +123,6 @@ export default {
     ThemeMgr,
     Modal,
     TransitionPage,
-    // Textfield,
-    Divider,
     RenderString,
     Avatar
   },
@@ -154,6 +151,10 @@ export default {
           {
             name: 'Music Player',
             icon: 'las la-music'
+          },
+          {
+            name: 'Audit',
+            icon: 'las la-history'
           }
         ],
         Profile: [
@@ -162,7 +163,7 @@ export default {
             icon: 'las la-user-circle'
           },
           {
-            name: 'Prefeences',
+            name: 'Preferences',
             icon: 'las la-cog'
           },
           {
@@ -278,6 +279,16 @@ export default {
     }
   },
   mounted () {
+    for (const layer in this.drawerItems) {
+      for (const item of this.drawerItems[layer]) {
+        if (item.name === this.$store.state.page) {
+          this.activeComponent = item
+        }
+      }
+    }
+    this.$socket.client.on('error', (reason) => {
+      this.$modal.show('Error', `Reason: ${reason}`)
+    })
     this.$socket.client.on('getuser', (redirectPayload) => {
       console.log('redirect', redirectPayload)
       if (this.user && this.user.id != null) {
@@ -449,6 +460,7 @@ export default {
 .d-guild-preview-short {
   margin-left: 400px;
   transition: all ease-in-out .2s;
+  overflow: hidden;
 }
 
 .d-guild-preview-short img {

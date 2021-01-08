@@ -66,6 +66,10 @@ const store = new Vuex.Store({
         method: 'getTriggers',
         guild: guild.id
       })
+      socket.emit('action', {
+        method: 'getPrefix',
+        guild: guild.id
+      })
     }
   },
   plugins: [new VuexPersistence().plugin]

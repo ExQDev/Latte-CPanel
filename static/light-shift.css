@@ -174,7 +174,7 @@ button[disabled]  .mask {
 }
 /* -- TOOLTIP -- */
 
-
+/* --  CARD   -- */
 .card {
   background-color: white;
 	padding: 10px;
@@ -183,7 +183,11 @@ button[disabled]  .mask {
   transition: 0.3s;
 }
 
+.card-header {
+  border-bottom: 1px solid gray;
+}
 
+/* --  CARD   -- */
 
 
 

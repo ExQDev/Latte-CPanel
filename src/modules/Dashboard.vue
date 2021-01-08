@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{page}}</h1>
-    <div>
+    <div class="content-container">
       <component :is="component(page)"/>
     </div>
   </div>
@@ -16,7 +16,7 @@ export default {
   data () {
     return {
       components: {
-        Triggers: Triggers,
+        Triggers,
         Dashboard,
         MusicPlayer
       }
@@ -47,6 +47,9 @@ export default {
 </script>
 
 <style>
+.content-container {
+  padding: 30px;
+}
 
 .store-container {
   margin-top: 60px;

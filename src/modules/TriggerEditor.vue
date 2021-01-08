@@ -31,7 +31,7 @@
           :onselect="onSelectChannel"
           label="Channel"
           :options="availableChannels"
-          :value="callback.channel">
+          :value="callback.channel.name">
         </dropdown>
         <dropdown
           v-if="callback.trigger.length > 0"
@@ -47,7 +47,7 @@
           :onselect="onSelectRole"
           label="Role"
           :options="availableRoles"
-          :value="callback.action.role">
+          :value="callback.action.role.name">
         </dropdown>
         <v-button :onclick="saveTrigger" class="fullwidth">Save</v-button>
       </div>
@@ -56,15 +56,12 @@
 </template>
 
 <script>
-import VButton from '@/components/Button'
-import Dropdown from '@/components/Dropdown'
 import Tooltip from '@/components/Tooltip'
 import SearchIcon from '@/assets/search.svg'
+import { cloneDeep } from 'lodash'
 
 export default {
   components: {
-    VButton,
-    Dropdown,
     Tooltip
     // Textfield
   },
@@ -79,13 +76,20 @@ export default {
           type: '',
           target: '',
           condition: '',
-          role: '',
+          role: {
+            id: '',
+            name: '',
+            color: ''
+          },
           emoji: ''
         },
         trigger: '',
         guild: this.$store.state.currentGuild.id,
         messageId: '',
-        channel: ''
+        channel: {
+          id: '',
+          name: ''
+        }
       },
       triggers: [
         'OnReact',
@@ -152,11 +156,11 @@ export default {
     },
     onSelectRole (role) {
       console.log(role)
-      this.callback.action.role = role.name
+      this.callback.action.role = cloneDeep(role)
     },
     onSelectChannel (chan) {
       console.log(chan)
-      this.callback.channel = chan.name
+      this.callback.channel = cloneDeep(chan)
     },
     searchTrigger (trig) {
       this.availableTriggers = this.triggers.filter(t => t.includes(trig.target.value)) // .map(trig => ({ title: trig,  }))
@@ -169,12 +173,12 @@ export default {
     searchRole (rol) {
       this.availableRoles = this.roles.filter(a => a.name.includes(rol.target.value))
       // console.log(rol.target.value, this.availableRoles)
-      this.callback.action.role = rol.target.value
+      this.callback.action.role.name = rol.target.value
     },
     searchChannel (chan) {
       this.availableChannels = this.channels.filter(a => a.name.includes(chan.target.value))
       // console.log(rol.target.value, this.availableRoles)
-      this.callback.channel = chan.target.value
+      this.callback.channel.name = chan.target.value
     },
     messageIdInput (e) {
       this.callback.messageId = e.target.value

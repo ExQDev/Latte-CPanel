@@ -1,7 +1,7 @@
 <template>
     <div id="modal-app">
       <slot></slot>
-      <v-dialog v-if="modalShown" :reject="close" :accept="action" oktitle="OK" :title="title" :body="body"></v-dialog>
+      <v-dialog v-if="modalShown" :reject="close" :accept="action ? doAction : null" oktitle="OK" :title="title" :body="body"></v-dialog>
     </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
       modalShown: false,
       title: '',
       body: '',
-      action: () => {}
+      action: null
     }
   },
   methods: {
@@ -27,6 +27,13 @@ export default {
       this.modalShown = true
     },
     close () {
+      this.modalShown = false
+      if (this.reject) { this.reject() }
+    },
+    doAction () {
+      if (this.action) {
+        this.action()
+      }
       this.modalShown = false
     }
   },

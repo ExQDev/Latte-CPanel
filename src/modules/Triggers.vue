@@ -1,5 +1,5 @@
 <template>
-  <div class="content-container">
+  <div>
     <!-- <div v-for="trigger in triggers">
 
     </div> -->
@@ -47,11 +47,11 @@
           >
           <tr v-for="value in callbacks" :key="value._id">
             <td>{{ value.trigger }}</td>
-            <td>{{ value.channel }}</td>
+            <td>{{ value.channel.name }}</td>
             <td>{{ value.messageId }}</td>
             <td>{{ value.action.type }}</td>
             <td>{{ value.action.emoji }}</td>
-            <td>{{ value.action.role }}</td>
+            <td>{{ value.action.role.name }}</td>
             <td>
               <div class="manage-acts">
                 <v-button :onclick="editTrigger(value)" :noshift="true"><i class="las la-pen"></i></v-button>
@@ -117,11 +117,13 @@ export default {
       }
     },
     deleteAll () {
-      this.$socket.client.emit('action', {
-        method: 'deleteTrigger',
-        callback: {
-          guild: this.$store.state.currentGuild.id
-        }
+      this.$modal.show('Are you sure?', 'This action will delete all triggers for this server. Are you sure?', () => {
+        this.$socket.client.emit('action', {
+          method: 'deleteTrigger',
+          callback: {
+            guild: this.$store.state.currentGuild.id
+          }
+        })
       })
     },
     beforeEnter: function (el) {
@@ -133,7 +135,7 @@ export default {
       setTimeout(function () {
         Velocity(
           el,
-          { opacity: 1 },
+          { opacity: 1, height: 44 },
           { complete: done }
         )
       }, delay)
@@ -192,10 +194,6 @@ export default {
 </script>
 
 <style>
-.content-container {
-  padding: 30px;
-}
-
 .modal {
   margin-top: 70px;
 }

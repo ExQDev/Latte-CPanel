@@ -17,6 +17,7 @@
     "@kouts/vue-modal": "^2.0.1",
     "@lossendae/vue-avatar": "^0.1.5",
     "express": "^4.17.1",
+    "lodash": "^4.17.20",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.1",
     "v-click-outside": "^3.1.2",
