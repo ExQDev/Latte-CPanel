@@ -20,7 +20,7 @@
 export default {
   props: [ 'onselect', 'label', 'options', 'value', 'oninput', 'disabled' ],
   mounted () {
-    console.log(this.options)
+    // console.log(this.options)
   }
 }
 </script>

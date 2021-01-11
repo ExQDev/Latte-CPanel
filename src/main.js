@@ -28,7 +28,14 @@ Vue.component('Dropdown', Dropdown)
 Vue.component('checkbox', Checkbox)
 Vue.use(VueSocketIOExt, socket)
 Vue.config.productionTip = false
-
+Vue.prototype.$subscriptions = {
+  Triggers: false,
+  Music: false,
+  App: false,
+  Dashboard: false,
+  DashboardHome: false,
+  TriggerEditor: false
+}
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

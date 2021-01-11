@@ -235,29 +235,25 @@ export default {
   events: {
 
   },
-  mounted () {
-    this.availableTriggers = [...this.triggers]
-    this.availableActions = [...this.actions]
-    this.availableRoles = []
-    this.availableChannels = []
-    if (this.saved) {
-      this.callback = { ...this.saved }
-    }
-    this.$socket.client.on('roles', (roles) => {
+  created () {
+    this.$socket.$subscribe('roles', (roles) => {
       this.roles = roles
       this.availableRoles = roles // [...roles.map(r => r.name)]
       console.log(roles)
     })
-    this.$socket.client.on('channels', (channels) => {
+    this.$socket.$subscribe('channels', (channels) => {
       this.channels = channels
       this.availableChannels = channels // [...channels.map(c => c.name)]
       // console.log(channels)
     })
-    this.$socket.client.on('callback', (cb) => {
+    this.$socket.$subscribe('callback', (cb) => {
       // this.roles = roles
       // this.availableRoles = roles // [...roles.map(r => r.name)]
       console.log(cb)
     })
+    this.$unsubscribe = this.$socket.$unsubscribe
+  },
+  activated () {
     this.$socket.client.emit('action', {
       method: 'getRoles',
       guild: this.$store.state.currentGuild.id
@@ -266,6 +262,20 @@ export default {
       method: 'getChannels',
       guild: this.$store.state.currentGuild.id
     })
+  },
+  mounted () {
+    this.availableTriggers = [...this.triggers]
+    this.availableActions = [...this.actions]
+    this.availableRoles = []
+    this.availableChannels = []
+    if (this.saved) {
+      this.callback = { ...this.saved }
+    }
+  },
+  deactivated () {
+    this.$unsubscribe('roles')
+    this.$unsubscribe('channels')
+    this.$unsubscribe('callback')
   }
 }
 </script>

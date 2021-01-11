@@ -42,6 +42,9 @@
           </div>
         </div>
       </div>
+      <div class="card-footer">
+        <v-button :onclick="applyGreets">Apply</v-button>
+      </div>
     </div>
   </div>
 </template>
@@ -115,6 +118,13 @@ export default {
         prefix: this.prefix
       })
     },
+    applyGreets () {
+      this.$socket.client.emit('action', {
+        method: 'setGreets',
+        guild: this.$store.state.currentGuild.id,
+        greets: this.guild
+      })
+    },
     invite () {
       this.$socket.client.emit('action', {
         method: 'generateInvite',
@@ -122,22 +132,49 @@ export default {
       })
     }
   },
-  mounted () {
-    this.$socket.client.on('prefix', (prefix) => {
+  activated () {
+    this.$subscribe('prefix', (prefix) => {
       this.prefix = prefix
+      // console.log('prefix', prefix)
     })
-    this.$socket.client.on('invite', (link) => {
+    this.$subscribe('invite', (link) => {
       window.open(link)
     })
-    this.$socket.client.on('channels', (channels) => {
+    this.$subscribe('greets', (greets) => {
+      this.guild = { ...greets }
+      if (greets.greet || greets.bye) {
+        this.$socket.client.emit('action', {
+          method: 'getChannels',
+          guild: this.$store.state.currentGuild.id
+        })
+      }
+      // console.log('greets', greets)
+    })
+    this.$subscribe('channels', (channels) => {
       this.channels = channels
       this.availableChannels = channels
-      console.log(channels)
+      // console.log(channels)
     })
+
     this.$socket.client.emit('action', {
       method: 'getPrefix',
       guild: this.$store.state.currentGuild.id
     })
+    this.$socket.client.emit('action', {
+      method: 'getGreets',
+      guild: this.$store.state.currentGuild.id
+    })
+  },
+  created () {
+    this.$subscribe = this.$socket.$subscribe
+    this.$unsubscribe = this.$socket.$unsubscribe
+  },
+  beforeUnmount () {
+    // console.log('unmounting')
+    this.$unsubscribe('prefix')
+    this.$unsubscribe('invite')
+    this.$unsubscribe('greets')
+    this.$unsubscribe('channels')
   }
 }
 </script>

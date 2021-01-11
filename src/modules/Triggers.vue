@@ -37,6 +37,7 @@
          <transition-group
               name="s2-staggered-fade"
               tag="tbody"
+              :key="animationTrigger"
               v-bind:css="false"
               v-on:before-enter="beforeEnter"
               v-on:enter="enter"
@@ -44,6 +45,7 @@
               slot="body"
               slot-scope="sort"
               class="divider div-transparent"
+              appear
           >
           <tr v-for="value in callbacks" :key="value._id">
             <td>{{ value.trigger }}</td>
@@ -66,8 +68,11 @@
       v-model="editorOpen"
       title="Trigger Editor"
       modalClass="card modal"
+      :live="false"
     >
-      <trigger-editor :saved="currentTrigger"></trigger-editor>
+      <keep-alive>
+        <trigger-editor :saved="currentTrigger"></trigger-editor>
+      </keep-alive>
     </modal>
   </div>
 </template>
@@ -88,7 +93,8 @@ export default {
   data () {
     return {
       editorOpen: false,
-      currentTrigger: null
+      currentTrigger: null,
+      animationTrigger: false
     }
   },
   computed: {
@@ -156,29 +162,38 @@ export default {
       if (!newVal) { this.currentTrigger = null }
     }
   },
-  mounted () {
-    this.$socket.client.on('triggers', (triggers) => {
-      console.log(triggers)
+  created () {
+    if (!this.$subscriptions.Triggers) {
+      // this.$subscriptions.Triggers = true
+      this.$subscribe = this.$socket.$subscribe
+      this.$unsubscribe = this.$socket.$unsubscribe
+      // console.log(this.$unsubscribe)
+    }
+  },
+  activated () {
+    // console.log('activated triggers')
+    this.$subscribe('triggers', (triggers) => {
+      // console.log(triggers)
       this.currentTrigger = null
       this.$store.commit('setCallbacks', triggers)
     })
-    this.$socket.client.on('trigger', (trigger) => {
-      console.log(trigger)
+    this.$subscribe('trigger', (trigger) => {
+      // console.log(trigger)
       this.currentTrigger = null
       this.$store.commit('pushBackCallback', trigger)
     })
-    this.$socket.client.on('callback', (cb) => {
+    this.$subscribe('callback', (cb) => {
       this.editorOpen = false
-      console.log(cb)
+      // console.log(cb)
       this.currentTrigger = null
       this.$socket.client.emit('action', {
         method: 'getTriggers',
         guild: this.$store.state.currentGuild.id
       })
     })
-    this.$socket.client.on('deleted-callback', (cb) => {
+    this.$subscribe('deleted-callback', (cb) => {
       this.editorOpen = false
-      console.log(cb)
+      // console.log(cb)
       this.currentTrigger = null
       this.$socket.client.emit('action', {
         method: 'getTriggers',
@@ -189,6 +204,21 @@ export default {
       method: 'getTriggers',
       guild: this.$store.state.currentGuild.id
     })
+    this.animationTrigger = true
+  },
+  mounted () {
+    // console.log('mounted triggers')
+    // console.log(this.$subscriptions)
+  },
+  deactivated () {
+    this.animationTrigger = false
+    // console.log('unmounting')
+    this.$unsubscribe('triggers')
+    this.$unsubscribe('trigger')
+    this.$unsubscribe('callback')
+    this.$unsubscribe('deleted-callback')
+  },
+  beforeUnmount () {
   }
 }
 </script>

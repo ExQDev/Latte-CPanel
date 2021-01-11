@@ -2,7 +2,9 @@
   <div>
     <h1>{{page}}</h1>
     <div class="content-container">
-      <component :is="component(page)"/>
+      <keep-alive>
+        <component :is="component(page)"/>
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -10,7 +12,7 @@
 <script>
 import Triggers from './Triggers'
 import Dashboard from './DashboardHome'
-import MusicPlayer from './MusicPlayer'
+import Music from './MusicPlayer'
 
 export default {
   data () {
@@ -18,7 +20,7 @@ export default {
       components: {
         Triggers,
         Dashboard,
-        MusicPlayer
+        Music
       }
     }
   },
@@ -33,12 +35,15 @@ export default {
     }
   },
   mounted () {
-    this.$socket.client.on('guilds', (guilds) => {
-      console.log(guilds)
-      this.$store.commit('setGuilds', guilds)
-      // console.log(this.$store.state.currentGuild)
-      if (!this.$store.state.currentGuild || !this.$store.state.currentGuild.id) { this.$store.dispatch('setCurrentGuild', guilds[0]) }
-    })
+    if (!this.$subscriptions.Dashboard) {
+      this.$socket.$subscribe('guilds', (guilds) => {
+        console.log(guilds)
+        this.$store.commit('setGuilds', guilds)
+        // console.log(this.$store.state.currentGuild)
+        if (!this.$store.state.currentGuild || !this.$store.state.currentGuild.id) { this.$store.dispatch('setCurrentGuild', guilds[0]) }
+      })
+      this.$subscriptions.Dashboard = true
+    }
     this.$socket.client.emit('action', {
       method: 'getGuilds'
     })

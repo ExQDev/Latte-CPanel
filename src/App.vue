@@ -149,7 +149,7 @@ export default {
             icon: 'las la-bolt'
           },
           {
-            name: 'Music Player',
+            name: 'Music',
             icon: 'las la-music'
           },
           {
@@ -286,25 +286,28 @@ export default {
         }
       }
     }
-    this.$socket.client.on('error', (reason) => {
-      this.$modal.show('Error', `Reason: ${reason}`)
-    })
-    this.$socket.client.on('getuser', (redirectPayload) => {
-      console.log('redirect', redirectPayload)
-      if (this.user && this.user.id != null) {
-        this.$socket.client.emit('action', {
-          method: 'signin',
-          setuser: this.user
-        }, () => {
-          if (!redirectPayload) return
+    if (!this.$subscriptions.App) {
+      this.$socket.client.on('error', (reason) => {
+        this.$modal.show('Error', `Reason: ${reason}`)
+      })
+      this.$socket.client.on('getuser', (redirectPayload) => {
+        console.log('redirect', redirectPayload)
+        if (this.user && this.user.id != null) {
           this.$socket.client.emit('action', {
-            ...redirectPayload
+            method: 'signin',
+            setuser: this.user
+          }, () => {
+            if (!redirectPayload) return
+            this.$socket.client.emit('action', {
+              ...redirectPayload
+            })
           })
-        })
-      } else {
-        console.log('not authorized')
-      }
-    })
+        } else {
+          console.log('not authorized')
+        }
+      })
+      this.$subscriptions.App = true
+    }
     if (this.user && this.user.id != null) {
       this.$socket.client.emit('action', {
         method: 'signin',

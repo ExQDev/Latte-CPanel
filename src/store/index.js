@@ -70,6 +70,10 @@ const store = new Vuex.Store({
         method: 'getPrefix',
         guild: guild.id
       })
+      socket.emit('action', {
+        method: 'getGreets',
+        guild: guild.id
+      })
     }
   },
   plugins: [new VuexPersistence().plugin]
