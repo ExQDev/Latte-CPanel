@@ -22,7 +22,9 @@ export default {
 
     const fragment = new URLSearchParams(window.location.hash.slice(1))
 
+    console.log('auth')
     if (fragment.has('access_token')) {
+      console.log('has')
       const accessToken = fragment.get('access_token')
       const tokenType = fragment.get('token_type')
 

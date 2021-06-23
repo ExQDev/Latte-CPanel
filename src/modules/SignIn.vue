@@ -2,7 +2,7 @@
   <div class="card centered container signin-form">
     <div class="signin-header">
       <!-- <discord-logo class="draggable-area" style="margin-top: -5px;" /> -->
-      <img class="draggable-area" style="margin-top: -5px;" src="../assets/discord-logo.png"/>
+      <img class="draggable-area" style="margin-top: -5px; max-width: 100%" src="../assets/discord-logo.png"/>
       <!-- <h1 class="draggable-area" style="margin-top: -5px;">Sign In</h1> -->
       <div id="theme-mgr">
         <theme-manager :root="root"></theme-manager>

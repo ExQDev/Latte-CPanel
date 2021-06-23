@@ -95,6 +95,7 @@
             </div>
           </div>
           <div slot="content">
+            <vue-progress-bar></vue-progress-bar>
             <transition-page class="content">
               <router-view/>
             </transition-page>
@@ -369,27 +370,28 @@ export default {
   padding: 10px;
   padding-left: 25px;
   cursor: pointer;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
   display: inline-flex;
   align-items: center;
   justify-items: start;
   width: 94%;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .userline .ava {
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
   /* margin-right: 30px; */
 }
 
 .userline .username {
   font-size: 32px;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
 }
 
 .userline .divi {
   width: 30px;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
 }
 
 .userline .divi-short {
@@ -397,7 +399,7 @@ export default {
 }
 
 .username-short {
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
   opacity: 0;
   width: 0px;
   padding: 0px;
@@ -406,7 +408,7 @@ export default {
 }
 
 .userline .discriminator {
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
   font-size: 32px;
   color: gray;
 }
@@ -417,18 +419,18 @@ export default {
   margin-right: -12px; */
   margin-left: 400px;
   padding: 0;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
 }
 
 .d-menuitem-short {
   margin-left: 400px;
   width: 70px;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
 }
 
 .d-guild-dropdown {
   /* height: 75px; */
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
   overflow-y: scroll;
   overflow-x: hidden;
   max-height: 30%;
@@ -440,11 +442,11 @@ export default {
   align-items: center;
   font-size: 36px;
   cursor: pointer;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
 }
 
 .d-guild-preview span {
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
 }
 
 .d-guild-preview:hover {
@@ -462,7 +464,7 @@ export default {
 
 .d-guild-preview-short {
   margin-left: 400px;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
   overflow: hidden;
 }
 
@@ -529,7 +531,7 @@ export default {
 .d-menuitem .title {
   font-size: 32px;
   margin-left: 15px;
-  transition: all ease-in-out .2s;
+  transition: all ease-in-out .25s;
 }
 
 .drawer-footer {

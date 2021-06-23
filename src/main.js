@@ -14,12 +14,30 @@ import App from './App'
 import socket from './socket'
 import router from './router'
 import store from './store'
+import AudioVisual from 'vue-audio-visual'
+import VueProgressBar from 'vue-progressbar'
 import '@kouts/vue-modal/dist/vue-modal.css'
 
+const vpboptions = {
+  color: '#fffa',
+  failedColor: '#874b4b',
+  thickness: '5px',
+  transition: {
+    speed: '0.2s',
+    opacity: '0.6s',
+    termination: 300
+  },
+  autoRevert: true,
+  location: 'bottom',
+  inverse: false
+}
+
+Vue.use(VueProgressBar, vpboptions)
 Vue.use(DrawerLayout)
 Vue.use(VEmojiPicker)
 Vue.use(vClickOutside)
 Vue.use(VueTable)
+Vue.use(AudioVisual)
 Vue.component('Modal', VueModal)
 Vue.component('Textfield', Textfield)
 Vue.component('Divider', Divider)
