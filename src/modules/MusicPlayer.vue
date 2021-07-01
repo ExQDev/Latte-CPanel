@@ -184,7 +184,7 @@ export default {
         })
         this.streaming = true
         this.songUrl = track.url
-        this.$Progress.start()
+        // this.$Progress.start()
         this.$socket.client.emit('gettrack', {
           guild: this.$store.state.currentGuild.id
         })
@@ -265,6 +265,12 @@ export default {
         progressColor: '#4353FF'
       })
       this.wavesurfer.setMute(true)
+      // this.wavesurfer.on('seek', (pos) => {
+      //   this.$socket.client.emit('action', {
+      //     method: 'm_seek',
+      //     pos
+      //   })
+      // })
       // this.wavesurfer.load(
       //   '/static/All Good Things - For The Glory (Official).mp3'
       // )

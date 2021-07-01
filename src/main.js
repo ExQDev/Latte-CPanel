@@ -27,7 +27,7 @@ const vpboptions = {
     opacity: '0.6s',
     termination: 300
   },
-  autoRevert: true,
+  autoRevert: false,
   location: 'bottom',
   inverse: false
 }

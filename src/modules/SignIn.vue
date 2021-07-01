@@ -33,7 +33,7 @@ export default {
       console.log(this.$socket)
       this.$socket.client.emit('action', { method: 'getoauthurl' }, (url) => {
         console.log(url)
-        window.open(url)
+        window.location.href = url
       })
     }
   },
